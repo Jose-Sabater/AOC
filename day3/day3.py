@@ -1,6 +1,6 @@
 import re
 
-with open("./day3/day3.txt", "r") as f:
+with open("day3.txt", "r") as f:
     # with open("./day3/test.txt", "r") as f:
     lines = f.read()
 
@@ -32,7 +32,9 @@ for r in range(len(array)):
                             valid_n_pos.append([r, c])
                             _nr = array[r][c]
                             # check ahead until nr ends
-                            for next in range(c + 1, len(array) - 1):
+                            for next in range(
+                                c + 1, len(array[r])
+                            ):  # should this be -1 after len?
                                 if array[r][next].isdigit():
                                     _nr += array[r][next]
                                 else:
@@ -42,18 +44,18 @@ for r in range(len(array)):
                             for previous in range(c - 1, -2, -1):
                                 if array[r][previous].isdigit():
                                     _nr = array[r][previous] + _nr
-                                if array[r][previous] == "-":
-                                    neg = True
+                                # if array[r][previous] == "-":
+                                #     neg = True
                                 if previous < 0 or not array[r][previous].isdigit():
                                     first_d_pos = [r, previous]
                                     break
 
-                            nr_dict[f"{r,first_d_pos,fd_pos}"] = int(_nr) 
-                            if neg:# Not sure about this , if such maybe then the negative doesnt count as symbol
-                                nr_dict[f"{r,first_d_pos,fd_pos}"] = -int(_nr)
+                            nr_dict[f"{r,first_d_pos,fd_pos}"] = int(_nr)
+                            # if neg:# Not sure about this , if such maybe then the negative doesnt count as symbol
+                            #     nr_dict[f"{r,first_d_pos,fd_pos}"] = -int(_nr)
 
 
-#TODO  negative numbers?
+# TODO  negative numbers?
 print(nr_dict.values())
 ans = 0
 for k, v in nr_dict.items():
