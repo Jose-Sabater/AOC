@@ -1,3 +1,2 @@
-# Advent of Code 2023
-## Description
+# Advent of Code 
 Contains some attempts at some of the challenges
