@@ -1,3 +1,8 @@
+import sys
+
+input_path = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
+
+
 def solve_problem(input_path: str) -> int:
     with open(input_path) as f:
         text = f.read().splitlines()
@@ -14,5 +19,4 @@ def solve_problem(input_path: str) -> int:
     return sum(result)
 
 
-print(solve_problem(("./2024/day_1/test_1.txt")))
-print(solve_problem(("./2024/day_1/input_1.txt")))
+print(solve_problem((input_path)))

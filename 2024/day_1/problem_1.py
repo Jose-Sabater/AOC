@@ -1,3 +1,8 @@
+import sys
+
+input_path = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
+
+
 def solve_problem(path):
     with open(path) as f:
         text = f.read().splitlines()
@@ -5,14 +10,14 @@ def solve_problem(path):
     lst_1 = sorted([int(line.split("   ")[0]) for line in text])
     lst_2 = sorted([int(line.split("   ")[1]) for line in text])
     result = []
-    for i in range(len(lst_1)):
-        result.append(abs(lst_2[i] - lst_1[i]))
+    for l, r in zip(lst_1, lst_2):
+        result.append(abs(r - l))
 
     print(sum(result))
 
 
-solve_problem("./2024/day_1/test_1.txt")
-solve_problem("./2024/day_1/input_1.txt")
+solve_problem(input_path)
+
 
 # with re
 # import re
