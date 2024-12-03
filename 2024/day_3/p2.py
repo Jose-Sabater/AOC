@@ -2,55 +2,32 @@ import re
 import sys
 
 input_path = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
-with open(input_path) as f:
-    text = f.read()
-# remove new line characters
-text.replace("\n", " ")
-
-total = 0
-
-# find first part before a don't()
-pattern = r"(.*?)don't\(\)"
-matches = re.findall(pattern, text)
-first_match = matches[0]
-print("First match")
-print(first_match)
-muls = re.findall(r"mul\(\d+,\d+\)", first_match)
-# print(muls)
-for mul in muls:
-    m = re.findall(r"\d+", mul)
-    total += int(m[0]) * int(m[1])
-print("LEN FIRST MATCH")
-print(len(first_match))
-# find all instances of do() and the next mul() & don't() and the next mul
-# middle part
-# TODO there are do() dont before the first don't, so will need to remove those
-text = text[len(first_match) : :]
-pattern = r"do\(\)(.*?)don't\(\)"
-middle_match = re.findall(pattern, text)
-print("Middle")
-
-for i, match in enumerate(middle_match):
-    print(f"Match {i}")
-    print(match)
-    muls = re.findall(r"mul\(\d+,\d+\)", match)
-    for mul in muls:
-        m = re.findall(r"\d+", mul)
-        total += int(m[0]) * int(m[1])
 
 
-# final match
-pattern = r"do\(\)"
-# final_match = re.findall(pattern, text)[-1]
-# print(re.finditer(pattern, text))
-matches = re.finditer(pattern, text)
-for match in matches:
-    last_do_end = match.end()
-last_match = text[last_do_end::]
-print("Last match\n", last_match)
-muls = re.findall(r"mul\(\d+,\d+\)", last_match)
-for mul in muls:
-    m = re.findall(r"\d+", mul)
-    total += int(m[0]) * int(m[1])
+def solve(input):
+    with open(input_path) as f:
+        text = f.read()
 
-print(total)
+    pattern = r"mul\((\d{1,3}),(\d{1,3})\)"  # looking at output the size of the numbers is always between 1 and 3
+    pattern = re.compile(pattern)
+
+    total = 0
+    # Initial conditions
+    start = 0
+    end = text.find("don't()")  # find returns -1 if not found
+    while True:
+        for match in pattern.finditer(text, start, end if end != -1 else len(text)):
+            total += int(match.group(1)) * int(match.group(2))
+
+        if end == -1:
+            break
+
+        start = text.find(
+            "do()", end
+        )  # use the end of the previous loop as starting point
+        end = text.find("don't()", start)  # use the start as starting point for the end
+
+    print(total)
+
+
+solve(input_path)
