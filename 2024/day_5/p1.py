@@ -8,7 +8,7 @@ rules, checks = text.split("\n\n")
 rule_dict = {}
 for row in rules.splitlines():
     x, y = map(int, row.split("|"))
-    rule_dict.setdefault(x, []).append(y)
+    rule_dict.setdefault(x, []).append(y)  # returns the value for that key.
 
 # rows to check
 C = [[int(r) for r in row.split(",")] for row in checks.splitlines()]
