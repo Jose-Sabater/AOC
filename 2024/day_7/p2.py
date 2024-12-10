@@ -1,69 +1,30 @@
 import sys
-import re
-from itertools import combinations
 
+
+#Using backtracking algoritm
 input_path = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
 with open(input_path) as f:
-    text = f.read()
+    text = f.read().strip()
 
-
-# 1 possible operations *, +
-# 2 + +, + *, * +, * *
-# 3 +++, ++*, +**, ***, **+, *++, *+*, +*+, 2^n
-simbols = "*+="
-
-
-def get_combinations_list(size):
-    simbols_comb = simbols
-    for i in range(size - 1):
-        simbols_comb += "*+="
-    # print(simbols_comb)
-    combs = combinations(simbols_comb, size)
-    return list(set([comb for comb in combs]))
-
-
-def run_operation(sign, nums):
-    # print(f"runing operation for: {sign}, {nums}")
-    if sign == "+":
-        return sum(nums)
-    if sign == "*":
-        return nums[0] * nums[1]
-    if sign == "=":
-        return int(str(nums[0]) + str(nums[1]))
-
-
+sys.setrecursionlimit(10**6)
 total = 0
-for line in text.split("\n"):
-    # print(f"Starting line {line}")
-    result = int(line.split(":")[0])
-    operators = line.split(": ")[1].split(" ")
-    operators = list(map(int, operators))
-    n_operations = len(operators) - 1
-    # print(result)
-    # print(operators)
-    # print(n_operations)
 
-    # possible combinations
-    comb_list = get_combinations_list(n_operations)
-    # print(comb_list)
-    skip = False
-    for comb in comb_list:
-        # print(f"starting combination: {comb}")
-        r = 0
-        for i, sign in enumerate(comb):
-            if i == 0:
-                r = run_operation(sign, operators[i : i + 2])
-            else:
-                r = run_operation(sign, [r, operators[i + 1]])
-            # print(f"r is equal to{r}")
-        if r == result:
-            # print("SUCCESS!!!!")
-            total += result
-            # print("total: ", total)
-            skip = True
-            break
-        if skip:
-            break
+def is_valid(target, ns, p2):
+    if len(ns) == 1:
+        return ns[0]==target
+    if is_valid(target, [ns[0]+ns[1]] + ns[2:], p2):
+        return True
+    if is_valid(target, [ns[0]*ns[1]] + ns[2:], p2):
+        return True
+    if p2 and is_valid(target, [int(str(ns[0])+str(ns[1]))] + ns[2:], p2):
+        return True
+    return False
 
+for line in text.strip().split('\n'):
+    target, ns = line.strip().split(':')
+    target = int(target)
+    ns = [int(x) for x in ns.strip().split()]
+    if is_valid(target, ns, p2=True):
+        total += target
 
 print(total)
