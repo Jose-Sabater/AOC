@@ -1,7 +1,7 @@
 import sys
 
 
-#Using backtracking algoritm
+# Using backtracking algoritm
 input_path = sys.argv[1] if len(sys.argv) > 1 else "input.txt"
 with open(input_path) as f:
     text = f.read().strip()
@@ -9,22 +9,24 @@ with open(input_path) as f:
 sys.setrecursionlimit(10**6)
 total = 0
 
-def is_valid(target, ns, p2):
+
+def is_valid(target, ns):
     if len(ns) == 1:
-        return ns[0]==target
-    if is_valid(target, [ns[0]+ns[1]] + ns[2:], p2):
+        return ns[0] == target
+    if is_valid(target, [ns[0] + ns[1]] + ns[2:]):
         return True
-    if is_valid(target, [ns[0]*ns[1]] + ns[2:], p2):
+    if is_valid(target, [ns[0] * ns[1]] + ns[2:]):
         return True
-    if p2 and is_valid(target, [int(str(ns[0])+str(ns[1]))] + ns[2:], p2):
+    if is_valid(target, [int(str(ns[0]) + str(ns[1]))] + ns[2:]):
         return True
     return False
 
-for line in text.strip().split('\n'):
-    target, ns = line.strip().split(':')
+
+for line in text.strip().split("\n"):
+    target, ns = line.strip().split(":")
     target = int(target)
     ns = [int(x) for x in ns.strip().split()]
-    if is_valid(target, ns, p2=True):
+    if is_valid(target, ns):
         total += target
 
 print(total)
