@@ -17,7 +17,7 @@ for line in text:
 def bfs(r, c):
     visited_9s = list()  # set()
     directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    val = 0  # starting value
+
     q = deque()
     q.append((r, c))
     while q:
