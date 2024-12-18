@@ -40,6 +40,7 @@ for slot in slots:
             # check if the other side also matches
             n_small_y = i
             n_big_y = (price_y - num) // big["y"]
+
             if n_small_y * small["x"] + n_big_y * big["x"] == price_x:
                 tokens = n_small_y * small["t"] + n_big_y * big["t"]
                 t_l.append(tokens)

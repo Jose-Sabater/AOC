@@ -48,5 +48,9 @@ for slot in slots:
     if t_l != []:
         f_t.append(min(t_l))
 
+
+# P2
+# do the same for a 100k and then multiply by the ration 1000000000/100k
+
 print(f_t)
 print(sum(f_t))
