@@ -20,7 +20,6 @@ for line in text.strip().split("\n"):
     if amount >= first_zero:
         counter += (amount - first_zero) // 100 + 1
 
-    # Update position
     if direction == "L":
         nr = (nr - amount) % 100
     else:
